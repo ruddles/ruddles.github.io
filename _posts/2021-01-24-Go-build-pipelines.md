@@ -1,10 +1,10 @@
 ---
-title: Go build pipelines
+title: 1 minute Go build pipelines
 published: true
 ---
 One of the things I'm enjoying about working in Go is how fast the compile times are.  Not only does that make the local dev/test loop fast but it means we can create more involved automated build pipelines and have them still run in under a minute.
 
-Given I use hosted build agents a lot of tasks have an install step then an execute step.  The following lists the tasks I currently have in a Go pipeline in Azure:
+Given I use hosted build agents a lot of tasks have an install step then an execute step.  The following lists the pre-test-and-build tasks I currently have in a Go pipeline in Azure:
 
 # GoImports Formatter
 I'm a big fan of opinionated formatting tools, they removed the need for the old "standards documents" we used to know and hate, and get rid of the arguments about what's "right".
@@ -58,4 +58,8 @@ Then run with
 go list -json -m all | $(go env GOPATH)/bin/nancy sleuth
 ```
 
-Then it's just a simple test and build process to get the final executable.  I tend to have the steps above in a separate pipeline file that's included with all go builds, then include it in the projects pipeline so these steps can be easily updated.
+Then it's just a simple test and build process to get the final executable.  
+
+![build time 55 seconds]({{ site.url }}/assets/post-images/build-time.png)
+
+I tend to have the steps above in a separate pipeline file that's included with all go builds, then include it in the projects pipeline so these steps can be easily updated.
