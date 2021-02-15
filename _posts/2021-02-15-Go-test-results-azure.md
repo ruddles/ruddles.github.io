@@ -7,17 +7,17 @@ A nice feature of Azure build pipelines is that you can publish test results and
 
 # Test Results
 
-Aure build pipline report support a few test result formats, incluing the popular junit. Thankfully there's a tool to convert Go test results into junit reports: [go-junit-report](https://github.com/jstemmer/go-junit-report).
+Aure build pipline reports support a few test result formats, incluing junit. Thankfully there's a tool to convert Go test results into junit reports: [go-junit-report](https://github.com/jstemmer/go-junit-report).
 
-It's usage is simple, install with `go get` then pipe the results of `go test -v` into the tool, then pipe the results out into a file. This file can then be used by the PublishTestResults step in the Azure pipeline.
+Its usage is simple, install with `go get` then pipe the results of `go test -v` into the tool, and finally pipe the results out into a file. This file can then be used by the PublishTestResults step in the Azure pipeline.
 
 # Code Coverage
 
 `go test` can create a coverage report using the `-coverprofile` flag. However, once again this isn't a file format supported by Azure. The good news is that the Cobertura format is supported, and there's a tool to convert the file: [gocover-cobertura](https://github.com/t-yuki/gocover-cobertura).
 
-As always you install the tools (plus it's dependency) using `go get`, run your tests with the `-coverprofile=coverage.txt` flag, and finally pipe the coverage.txt file into the `gocover-cobertura` tool.
+As always you install the tool (plus it's dependency) using `go get`, run your tests with the `-coverprofile=coverage.txt` flag, and finally pipe the coverage.txt file into the `gocover-cobertura` tool.
 
-On thing to note is that - for reasons I've yet to dig in to - when you update the coverage results you'll have to set the `pathToSources` property otherwise the coverage report won't show the highlighted file contents in the report.
+On thing to note is that - for reasons I've yet to dig in to - when you publish the coverage results you'll have to set the `pathToSources` property otherwise the coverage report won't show the highlighted file contents in the report.
 
 # Complete YAML steps
 
