@@ -86,3 +86,5 @@ At this point you're ready for the test and build process to get the final execu
 I tend to have the steps above in a separate pipeline file that's included with all go builds, then include it in the projects pipeline so these steps can be easily updated.
 
 In the near future we're moving to a container instance as abuild server, so we can pre-install these tools and bring the build time down further.
+
+Any comments or suggestions? Chat to me on [twitter](https://twitter.com/RuddlesDev)

@@ -3,4 +3,4 @@ layout: page
 title: About
 ---
 
-Something about me.
+I'm Rob, a freelance developer working in the south cost of England. I can be found on twitter [@RuddlesDev](https://twitter.com/RuddlesDev/)
