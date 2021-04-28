@@ -3,7 +3,7 @@ title: Hacker 101 CTF Micro-CMS v2 - Flag 1
 published: true
 ---
 
-Below are my notes on how I found the first flag on the Hacker 101 CTF Micro-CMS v2 (listed as moderate difficulty). If you're looking to follow along then I assume you're all logged in and have hit Go on the challenge. It's been a while since I've done one of these so there's some dead ends along the way.
+Below are my notes on how I found the first flag on the [Hacker 101 CTF](https://ctf.hacker101.com/) Micro-CMS v2 (listed as moderate difficulty). If you're looking to follow along then I assume you're all logged in and have hit Go on the challenge. It's been a while since I've done one of these so there's some dead ends along the way.
 
 # Finding a vulnerability
 
