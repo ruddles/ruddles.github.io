@@ -37,4 +37,4 @@ OK so entering those login details we get in!
 
 Looks like there's a private page, and yup it has a flag (which I won't post here).
 
-Any comments or suggestions? Chat to me on [twitter](https://twitter.com/RuddlesDev)
+Any comments or suggestions? Chat with me on [twitter](https://twitter.com/RuddlesDev)

@@ -7,7 +7,7 @@ A nice feature of Azure build pipelines is that you can publish test results and
 
 # Test Results
 
-Aure build pipline reports support a few test result formats, incluing junit. Thankfully there's a tool to convert Go test results into junit reports: [go-junit-report](https://github.com/jstemmer/go-junit-report).
+Azure build pipline reports support a few test result formats, incluing junit. Thankfully there's a tool to convert Go test results into junit reports: [go-junit-report](https://github.com/jstemmer/go-junit-report).
 
 Its usage is simple, install with `go get` then pipe the results of `go test -v` into the tool, and finally pipe the results out into a file. This file can then be used by the PublishTestResults step in the Azure pipeline.
 
@@ -59,4 +59,4 @@ Then when you look at the completed build pipeline you should see 2 new tabs (th
 
 ![results tabs]({{ site.url }}/assets/post-images/test-coverage-tabs.png)
 
-Any comments or suggestions? Chat to me on [twitter](https://twitter.com/RuddlesDev)
+Any comments or suggestions? Chat with me on [twitter](https://twitter.com/RuddlesDev)

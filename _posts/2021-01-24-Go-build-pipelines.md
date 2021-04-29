@@ -87,4 +87,4 @@ I tend to have the steps above in a separate pipeline file that's included with 
 
 In the near future we're moving to a container instance as abuild server, so we can pre-install these tools and bring the build time down further.
 
-Any comments or suggestions? Chat to me on [twitter](https://twitter.com/RuddlesDev)
+Any comments or suggestions? Chat with me on [twitter](https://twitter.com/RuddlesDev)
