@@ -21,7 +21,7 @@ The first thing to do is to log in (see my previous post on how to do this) and 
 
 Now we have a payload we can right click on the post in the network tab and select "Copy as cURL (bash)"
 
-![login page]({{ site.url }}/assets/post-images/h101-cms-v2/CreatePage.png)
+![Create page]({{ site.url }}/assets/post-images/h101-cms-v2/CreatePage.png)
 
 Now I tend to paste this into a text editor (I use vscode for everything) to make editing a bit easier. All we need to do is delete the line starting `-H 'Cookie:` so we're no longer logged in on the request and paste it into the terminal and hit enter:
 
