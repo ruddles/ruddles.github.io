@@ -7,23 +7,28 @@ Following on from [flag 1](https://ruddles.github.io/Hacker101-CTF-Micro-CMS-v2-
 
 # Finding a vulnerability
 
-Once I'd completed flag one I spent some time clicking around mapping out the site (that didn't take long) and doing some basic dir busting to see if I could find anything interesting. Long story short there, I didn't find anything of note, so back to looking at the obvious pages.
+After completing flag one I spent some time clicking around mapping out the site (that didn't take long) and doing some basic dir busting to see if I could find anything interesting. Long story short, I didn't find anything of note, so back to looking at the obvious pages.
 
-I dug around in the markdown section seeing if there was any injection points I could attack (there's a good post on some attack vectors [here](https://medium.com/taptuit/exploiting-xss-via-markdown-72a61e774bf8)), but it looks like this time around there was some decent input sanitisation going on. Another dead end.
+Digging around in the markdown section to see if there are any injection points I could attack (there's a good post on some attack vectors [here](https://medium.com/taptuit/exploiting-xss-via-markdown-72a61e774bf8)), it looks like there's fairly good input sanitisation now. Another dead end.
 
-So, going back to clicking around the site I had a thought. We can see the get requests are protected with a login page, what about the post requests. There's 2 on the site, one for creating a page and one for editing it.
+So, going back to clicking around the site I had a thought. We can see the `GET` requests are protected with a login page, what about the `POST` requests? There's 2 on the site:
+
+- Creating a page
+- Editing a page.
 
 # Posting to Create
 
-Usually I'd do something like this with burp suit however I'm currently trying out kali on WSL2, so until later this year there's no easy way to get UI up and running. Instead I'm browsing in windows and using the tools in the WSL2 instance. So no burp, instead just the network tab in chrome.
+Usually I'd do something like this with burp suit, however I'm currently trying out kali on WSL2, so until later this year there's no easy way to get UI up and running. Instead I'm browsing in windows and using the tools in the WSL2 instance. So no burp, however the network tab in chome dev tools should do it.
 
-The first thing to do is to log in (see my previous post on how to do this) and navigate to the create page at `/page/create/`. Open the dev tools in chrome (F12) and go to the network tab. I usually tick the "Preserve log" option at the top so redirects don't wipe the results out. Finally fill in some details and submit the page.
+The first thing to do is to log in (see my previous post on how to do this) and navigate to the create page at `/page/create/`. Open the dev tools in chrome (`F12`) and go to the network tab. I usually tick the "Preserve log" option at the top so redirects don't wipe the results out. Finally fill in some details and submit the page.
 
 Now we have a payload we can right click on the post in the network tab and select "Copy as cURL (bash)"
 
 ![Create page]({{ site.url }}/assets/post-images/h101-cms-v2/CreatePage.png)
 
-Now I tend to paste this into a text editor (I use vscode for everything) to make editing a bit easier. All we need to do is delete the line starting `-H 'Cookie:` so we're no longer logged in on the request and paste it into the terminal and hit enter:
+Now I tend to paste this into a text editor (I use vscode for everything) to make editing a bit easier.
+
+This request is of course logged in, and we want to test if the same request still worked logged out. All we need to do is delete the line starting `-H 'Cookie:` so we're no longer logged in on the request and paste it into the terminal and hit enter:
 
 ```bash
 curl 'http://35.190.155.168/90bf00b6e6/page/create' \
