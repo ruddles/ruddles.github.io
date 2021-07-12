@@ -37,4 +37,6 @@ OK so entering those login details we get in!
 
 Looks like there's a private page, and yup it has a flag (which I won't post here).
 
+We can find details on [flag 2 here](https://ruddles.github.io/Hacker101-CTF-Micro-CMS-v2-flag-2)
+
 Any comments or suggestions? Chat with me on [twitter](https://twitter.com/RuddlesDev)

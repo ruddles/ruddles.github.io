@@ -88,4 +88,6 @@ OK, that admin table looks like a good candidate.  We can use the `-T` flag to s
 
 I won't post the output here but that's given me a table with a username and a plaintext password.  Logging in to the site with those credentials gives me the final flag.
 
+And with that we are done with this small CTF, all the flags found and a few points on the board.  I plan on doing more of these posts for the other challenges on hacker 101.
+
 Any comments or suggestions? Chat with me on [twitter](https://twitter.com/RuddlesDev)

@@ -77,4 +77,6 @@ curl 'http://35.190.155.168/bf98748dfa/page/edit/4' \
 
 And that gives us a flag. Looks like the edit page wasn't correctly protected. One more flag to go on this challenge.
 
+We can find details on [flag 3 here](https://ruddles.github.io/Hacker101-CTF-Micro-CMS-v2-flag-3)
+
 Any comments or suggestions? Chat with me on [twitter](https://twitter.com/RuddlesDev)
