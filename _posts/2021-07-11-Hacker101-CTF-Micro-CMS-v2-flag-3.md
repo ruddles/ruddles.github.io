@@ -5,7 +5,7 @@ published: true
 
 Following on from [flag 1](https://ruddles.github.io/Hacker101-CTF-Micro-CMS-v2-flag-1) and [flag2](https://ruddles.github.io/Hacker101-CTF-Micro-CMS-v2-flag-2) this is a writeup of the final flag in [Hacker 101 CTF](https://ctf.hacker101.com/) Micro-CMS v2. If you're looking to follow along then I assume you're all logged in and have hit Go on the challenge.
 
-# Finding a the final vulnerability
+# Finding the final vulnerability
 
 At this point I've had a lot of time to dig around in the front end and can't think of anything else to try there, so let's have a dig in the database.
 
