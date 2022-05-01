@@ -86,3 +86,11 @@ python3 -c 'print("A" * 3000)' | nc challenge.nahamcon.com 30637
 ```
 
 Running that and boom, the flag is dumped. `flag{de8b6655b538a0bf567b79a14f2669f6}`
+
+# Read The Rules
+
+> Please follow the rules for this CTF!
+
+How was this not the most solved?  Anyway, I digress.  Go to the rules page at https://ctf.nahamcon.com/rules, view source and Ctrl-f for "flag{" and would you look at that...
+
+![screenshot of the source]({{ site.url }}/assets/post-images/nahamcon-warmup/read-the-rules-source.png)
