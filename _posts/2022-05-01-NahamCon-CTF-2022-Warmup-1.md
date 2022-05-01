@@ -167,3 +167,5 @@ A classic.  Connecting we go straight into a vim instance.  Typing `:q` to quit 
 flag{ccf443b43322be5659150eac8bb2a18c}
 Connection to challenge.nahamcon.com closed.
 ```
+
+You can find part 2 [here](https://ruddles.github.io/NahamCon-CTF-2022-Warmup-2)
