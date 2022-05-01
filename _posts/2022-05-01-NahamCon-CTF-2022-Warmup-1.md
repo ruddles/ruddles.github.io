@@ -54,8 +54,8 @@ OK so it's a PNG file.  We can use the following python to convert it back (ther
 data = b'\x89\x50\x4e\x47\x0d\x0a............' # truncated for brevity
 fo = open("quirky.png", "wb")
 fo.write(data)
-
 ```
+
 Opening the PNG:
 
 ![cyber chef screenshot]({{ site.url }}/assets/post-images/nahamcon-warmup/quirky.png)
@@ -147,4 +147,23 @@ Well well well, if it isn't our old friend `flag.txt`.  Time to grab the content
 ```
 >>> open("./flag.txt", "r").read()
 'flag{c31e05a24493a202fad0d1a827103642}\n'
+```
+
+And that's more points on the board
+
+# Exit Vim
+
+> Ah yes, a bad joke as old as time... can you exit vim?
+> 
+> Connect with:
+> 
+> \# Password is "userpass"
+> 
+> ssh -p 30415 user@challenge.nahamcon.com
+
+A classic.  Connecting we go straight into a vim instance.  Typing `:q` to quit and we get a flag.
+
+```bash
+flag{ccf443b43322be5659150eac8bb2a18c}
+Connection to challenge.nahamcon.com closed.
 ```
