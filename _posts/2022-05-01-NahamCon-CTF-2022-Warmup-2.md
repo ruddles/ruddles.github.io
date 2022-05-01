@@ -94,3 +94,13 @@ Running that and boom, the flag is dumped. `flag{de8b6655b538a0bf567b79a14f2669f
 How was this not the most solved?  Anyway, I digress.  Go to the rules page at https://ctf.nahamcon.com/rules, view source and Ctrl-f for "flag{" and would you look at that...
 
 ![screenshot of the source]({{ site.url }}/assets/post-images/nahamcon-warmup/read-the-rules-source.png)
+
+# Technical Support
+
+> Want to join the party of GIFs, memes and emoji spam? Or just want to ask a question for technical support regarding any challenges in the CTF? Join us in the Discord -- you might just find a flag in the #ctf-help channel!
+> 
+>[Join the Discord!](https://discord.com/invite/ucCz7uh)
+
+Join the Discord server, then go to the #ctf-help channel and look at the topic.  Then sit in chat and watch people completely miss the topic and type `!flag`
+
+![screenshot of discord topic]({{ site.url }}/assets/post-images/nahamcon-warmup/technical-support-topic.png)
