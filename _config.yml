@@ -14,8 +14,7 @@ paginate: 3
 paginate_path: /page/:num/
 
 defaults:
-  -
-    scope:
+  - scope:
       path: ""
       type: "posts"
     values:
@@ -28,5 +27,5 @@ plugins:
   - jekyll-sitemap
 
 # Custom variables
-owner : "Ruddles"
-year : "2021"
+owner: "Ruddles"
+year: "2026"
