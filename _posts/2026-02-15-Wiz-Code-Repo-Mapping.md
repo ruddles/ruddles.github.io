@@ -3,9 +3,11 @@ title: Mapping Repos in Wiz
 published: true
 ---
 
-I've been playing with a few different strategies for automatically assigning repos to projects in Wiz, as we use projects and SSO mappings to limit access so engineers can only see issues linked to resources they own.
+I've been playing with a few different strategies for automatically assigning repos to projects in Wiz. Given we use projects and SSO mappings to limit access so engineers can only see issues linked to resources they own, this will give us the ability to show admins the findings of their repos.
 
-Assuming you have a way to map teams to github teams, one option is to look at which teams are admins on the repo. The Resource Scopes on the projects are understandably limited and can't do this out the box, but we can then use Resource Tagging Rules to apply tags to the repos, and we can use a resource scope on the project to match the tag to the project.
+Assuming you have a way to map teams to github teams, one option is to look at which teams are admins on the repo. The Resource Scopes on the projects are understandably limited and can't do this out the box, but we can then use Resource Tagging Rules to apply tags to the repos, and we can use a resource scope on the project to match the tag to the project terraform.
+
+This approach has one flaw, which is that it only works if there's exactly one admin per repo. If you need to support multiple admins per repo you can switch things around a bit by changing the tag key per team and ignoring the value. I'll cover that in another post.
 
 ## The Project File
 
@@ -45,9 +47,9 @@ locals {
 
 ## Resource Tagging
 
-What we want to do is set up a resource tagging rule for each team, applying it to every repo object where that team is an admin. The reason we need this is that project mappings don't have the right filters on them to match this directly.
+What we want to do is set up a resource tagging rule for each team, applying it to every repo object where that team is an admin.
 
-We can us the lookup function to get the `github_team` property, or an empty string if the property doesn't exist.
+We can us the lookup function to get the `github_team` property or an empty string if the property doesn't exist.
 
 ```terraform
 resource "wiz_resource_tagging_rule" "repo_owning_team" {
