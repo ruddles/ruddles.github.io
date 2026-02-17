@@ -7,7 +7,7 @@ I've been playing with a few different strategies for automatically assigning re
 
 Assuming you have a way to map teams to github teams, one option is to look at which teams are admins on the repo. The Resource Scopes on the projects are understandably limited and can't do this out the box, but we can then use Resource Tagging Rules to apply tags to the repos, and we can use a resource scope on the project to match the tag to the project terraform.
 
-This approach has one flaw, which is that it only works if there's exactly one admin per repo. If you need to support multiple admins per repo you can switch things around a bit by changing the tag key per team and ignoring the value. I'll cover that in another post.
+This approach has some flaws, such as it only works if there's exactly one admin per repo. If you need to support multiple admins per repo you can switch things around a bit by changing the tag key per team and ignoring the value. I'll cover that in another post. If you do have multiple admins per repo the tags will overwrite each other and it appears the last one wins.
 
 ## The Project File
 
@@ -16,18 +16,18 @@ For this example I'm going to work with the following JSON which defines some pr
 ```json
 [
 {
-      "team_slug": "team-a",
-      "team_name": "Team A",
-      "github_team": "team-a-gh"
+    "team_slug": "team-a",
+    "team_name": "Team A",
+    "github_team": "team-a-gh"
 },
 {
 	  "team_slug": "team-b",
-      "team_name": "Team B",
-      "github_team": "team-b-gh"
+    "team_name": "Team B",
+    "github_team": "team-b-gh"
 },
 {
 	  "team_slug": "team-c",
-      "team_name": "Team C"
+    "team_name": "Team C"
 }
 ...
 ]
