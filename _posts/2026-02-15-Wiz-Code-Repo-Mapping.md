@@ -7,7 +7,7 @@ I've been playing with a few different strategies for automatically assigning re
 
 Assuming you have a way to map teams to github teams, one option is to look at which teams are admins on the repo. The Resource Scopes on the projects are understandably limited and can't do this out the box, but we can then use Resource Tagging Rules to apply tags to the repos, and we can use a resource scope on the project to match the tag to the project terraform.
 
-This approach has some flaws, such as it only works if there's exactly one admin per repo. If you need to support multiple admins per repo you can switch things around a bit by changing the tag key per team and ignoring the value. I'll cover that in another post. If you do have multiple admins per repo the tags will overwrite each other and it appears the last one wins.
+This approach has some flaws, such as it only works if there's exactly one admin per repo. If you need to support multiple admins per repo you can switch things around a bit by changing the tag key per team and ignoring the value. I'll cover that in another post. If you do have multiple admins per repo the tags will overwrite each other and it appears the last one wins (Update: I've confirmed with Wiz this is a last rule to run wins scenario).
 
 ## The Project File
 
@@ -114,7 +114,7 @@ resource "wiz_resource_tagging_rule" "repo_owning_team" {
 
 ## Project Resource Link
 
-Finally we can loop through the collection to create a project for each team with a resource_filter_links object matching the `Wiz/repo-ownership-team` tag (custom tags in Wiz start with `Wiz/`).
+Finally we can loop through the collection to create a project for each team with a resource_filter_links object matching the `Wiz/repo-admin-team` tag (custom tags in Wiz start with `Wiz/`).
 
 Because in our example the `github_team` isn't mandatory, we need to make the `resource_filter_links` dynamic so we can skip it if the team isn't specified.
 
