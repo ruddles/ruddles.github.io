@@ -5,7 +5,7 @@ published: true
 
 I've been playing with a few different strategies for automatically assigning repos to projects in Wiz. Given we use projects and SSO mappings to limit access so engineers can only see issues linked to resources they own, this will give us the ability to show admins the findings of their repos.
 
-Assuming you have a way to map teams to github teams, one option is to look at which teams are admins on the repo. The Resource Scopes on the projects are understandably limited and can't do this out the box, but we can then use Resource Tagging Rules to apply tags to the repos, and we can use a resource scope on the project to match the tag to the project terraform.
+Assuming you have a way to map teams to github teams, one option is to look at which teams are admins on the repo. The Resource Scopes on the projects are understandably limited and can't do this out the box, but we can use Resource Tagging Rules to apply tags to the repos, and then use a resource scope on the project to match the tag to the project terraform.
 
 This approach has some flaws, such as it only works if there's exactly one admin per repo. If you need to support multiple admins per repo you can switch things around a bit by changing the tag key per team and ignoring the value. I'll cover that in another post. If you do have multiple admins per repo the tags will overwrite each other and it appears the last one wins (Update: I've confirmed with Wiz this is a last rule to run wins scenario).
 
@@ -21,12 +21,12 @@ For this example I'm going to work with the following JSON which defines some pr
     "github_team": "team-a-gh"
 },
 {
-	  "team_slug": "team-b",
+    "team_slug": "team-b",
     "team_name": "Team B",
     "github_team": "team-b-gh"
 },
 {
-	  "team_slug": "team-c",
+    "team_slug": "team-c",
     "team_name": "Team C"
 }
 ...
@@ -49,7 +49,7 @@ locals {
 
 What we want to do is set up a resource tagging rule for each team, applying it to every repo object where that team is an admin.
 
-We can us the lookup function to get the `github_team` property or an empty string if the property doesn't exist.
+The lookup function allows us to get the `github_team` property or an empty string if the property doesn't exist.
 
 ```terraform
 resource "wiz_resource_tagging_rule" "repo_owning_team" {
