@@ -7,7 +7,7 @@ I've been playing with a few different strategies for automatically assigning re
 
 Assuming you have a way to map teams to github teams, one option is to look at which teams are admins on the repo. The Resource Scopes on the projects are understandably limited and can't do this out the box, but we can use Resource Tagging Rules to apply tags to the repos, and then use a resource scope on the project to match the tag to the project terraform.
 
-This approach has some flaws, such as it only works if there's exactly one admin per repo. If you need to support multiple admins per repo you can switch things around a bit by changing the tag key per team and ignoring the value. I'll cover that in another post. If you do have multiple admins per repo the tags will overwrite each other and it appears the last one wins (Update: I've confirmed with Wiz this is a last rule to run wins scenario).
+This approach has some flaws, such as it only works if there's exactly one admin per repo. If you need to support multiple admins per repo you can switch things around a bit by changing the tag key per team and ignoring the value. I'll cover that [in another post](https://ruddles.dev/Wiz-Code-Repo-Mapping-2). If you do have multiple admins per repo the tags will overwrite each other and it appears the last one wins (Update: I've confirmed with Wiz this is a last rule to run wins scenario).
 
 Also worth keeping in mind is that this is all based on github Team names, not slugs. In github you have both name and slug (and also a numeric id which is pretty much never shown in the UI) for each team. In Wiz you currently only have the name and the id you can match on in the query. I've raised a feature request to get the slug added.
 
@@ -145,3 +145,5 @@ resource "wiz_project" "team_projects" {
   }
 }
 ```
+
+See [part 2](https://ruddles.dev/Wiz-Code-Repo-Mapping-2) for how I handle multiple admins in a single repo.
