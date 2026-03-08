@@ -9,6 +9,8 @@ Assuming you have a way to map teams to github teams, one option is to look at w
 
 This approach has some flaws, such as it only works if there's exactly one admin per repo. If you need to support multiple admins per repo you can switch things around a bit by changing the tag key per team and ignoring the value. I'll cover that in another post. If you do have multiple admins per repo the tags will overwrite each other and it appears the last one wins (Update: I've confirmed with Wiz this is a last rule to run wins scenario).
 
+Also worth keeping in mind is that this is all based on github Team names, not slugs. In github you have both name and slug (and also a numeric id which is pretty much never shown in the UI) for each team. In Wiz you currently only have the name and the id you can match on in the query. I've raised a feature request to get the slug added.
+
 ## The Project File
 
 For this example I'm going to work with the following JSON which defines some properties for a team. We'll make the `github_team` property optional to show how we can tackle it in terraform.
@@ -143,4 +145,3 @@ resource "wiz_project" "team_projects" {
   }
 }
 ```
-
